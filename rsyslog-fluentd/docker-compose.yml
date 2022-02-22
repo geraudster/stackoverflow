@@ -1,0 +1,18 @@
+version: "3"
+services:
+  rsyslog:
+    image: rsyslog/syslog_appliance_alpine
+    volumes:
+      - ./config:/config
+    environment:
+      - RSYSLOG_CONF=/config/myrsyslog.conf
+  fluentd:
+    image: fluent/fluentd:edge
+    ports:
+      - "5140:5140"
+    command:
+      - -c
+      - /fluentd/etc/fluentd.conf
+      - -v
+    volumes:
+      - ./fluentd.conf:/fluentd/etc/fluentd.conf
